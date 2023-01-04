@@ -1,4 +1,8 @@
 import { Module } from '@nestjs/common';
+import { PrismaService } from 'src/prisma.service';
+import { TransactionService } from './transaction/transaction.service';
 
-@Module({})
+@Module({
+  providers: [TransactionService, PrismaService],
+})
 export class BackendModule {}
