@@ -12,3 +12,8 @@ export class Transaction {
   @IsNotEmpty({ message: 'vendedor inválido' })
   seller: string;
 }
+
+export class GetAllTransactionsResponse {
+  transactions: Transaction[];
+  total: any;
+}

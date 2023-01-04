@@ -1,5 +1,5 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { Transaction } from './types';
+import { GetAllTransactionsResponse, Transaction } from './types';
 import { validate, ValidationError } from 'class-validator';
 import { PrismaService } from 'src/prisma.service';
 
@@ -8,6 +8,31 @@ const MINIMUM_LINE_LENGTH = 67;
 @Injectable()
 export class TransactionService {
   constructor(private prisma: PrismaService) {}
+
+  async getTransactions(groupId?: number): Promise<GetAllTransactionsResponse> {
+    let where: any = {};
+
+    if (groupId) {
+      where = {
+        type: groupId,
+      };
+    }
+
+    const transactions = await this.prisma.transaction.findMany({
+      include: {
+        transactionType: true,
+      },
+      where,
+    });
+    const total = await this.prisma.transaction.aggregate({
+      _sum: {
+        amount: true,
+      },
+      where,
+    });
+
+    return { transactions, total: total?._sum?.amount };
+  }
 
   async create(file: Express.Multer.File): Promise<TnasactionCreateResponse> {
     const lines = this.getLines(file.buffer);
