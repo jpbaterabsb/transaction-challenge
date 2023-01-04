@@ -32,3 +32,10 @@ enum Type {
   IN
   OUT
 }
+
+
+model User {
+  id Int @default(autoincrement()) @id
+  username String @unique
+  password String
+}
