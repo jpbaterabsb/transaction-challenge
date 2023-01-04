@@ -18,9 +18,9 @@ services:
     ports:
       - "5432:5432"
     restart: unless-stopped
-    networks:
-      - hubla_net
-networks:
-  hubla_net:
-    driver: "bridge"
+    # networks:
+    #   - hubla_net
+# networks:
+#   hubla_net:
+#     driver: "bridge"
     

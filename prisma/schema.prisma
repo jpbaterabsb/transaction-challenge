@@ -2,10 +2,33 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-  provider = "prisma-client-js"
+    provider      = "prisma-client-js"
+    binaryTargets = ["native", "linux-musl"]
 }
 
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+}
+
+model TransactionType {
+  id  Int     @id
+  description String  
+  type  Type
+  transactions Transaction[] 
+}
+
+model Transaction {
+  id Int @default(autoincrement()) @id
+  type Int 
+  transactionType TransactionType @relation(fields: [type],references: [id]) 
+  date DateTime
+  product String
+  amount Int
+  seller String
+}
+
+enum Type {
+  IN
+  OUT
 }
