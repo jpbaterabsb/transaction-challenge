@@ -1,18 +1,18 @@
-import { Table } from "flowbite-react";
-import { Transaction } from "../types";
-import { formatBRL } from "../utils";
+import { Table } from 'flowbite-react'
+import { Transaction } from '../types'
+import { formatBRL } from '../utils'
 
-export interface LocalTableProps {
-    transactions: Transaction[];
+export interface TransactionTableProps {
+  transactions: Transaction[]
 }
 
 const formatedTransactionType: Record<string, string> = {
-    IN: 'Entrada',
-    OUT: 'Saída'
-};
+  IN: 'Entrada',
+  OUT: 'Saída'
+}
 
-export const LocalTable: React.FC<LocalTableProps> = ({ transactions }) => {
-    return <Table>
+export const TransactionTable: React.FC<TransactionTableProps> = ({ transactions }: TransactionTableProps) => {
+  return <Table>
         <Table.Head>
             <Table.HeadCell>
                 Tipo de Transação
@@ -34,8 +34,9 @@ export const LocalTable: React.FC<LocalTableProps> = ({ transactions }) => {
             </Table.HeadCell>
         </Table.Head>
         <Table.Body className="divide-y">
-            {transactions.length > 0 ? transactions.map(t =>
-            (
+            {transactions.length > 0
+              ? transactions.map(t =>
+                (
                 <Table.Row data-testid={`row${t.id}`} key={t.id} className="bg-white dark:border-gray-700 dark:bg-gray-800">
                     <Table.Cell>
                         {t.transactionType.description}
@@ -56,9 +57,9 @@ export const LocalTable: React.FC<LocalTableProps> = ({ transactions }) => {
                         {t.seller}
                     </Table.Cell>
                 </Table.Row>
-            )
-            ) :
-                (
+                )
+              )
+              : (
                     <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
                         <Table.Cell>
                             Não há transações para serem apresentadas
