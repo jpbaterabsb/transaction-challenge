@@ -1,12 +1,10 @@
-import { AxiosError } from 'axios';
 import React, { useEffect, useState } from 'react';
-import { toast } from 'react-toastify';
 import { LocalTable } from '../components/LocalTable';
 import { NavigationButton } from '../components/NavigationButton';
 import { SelectGroup } from '../components/SelectGroup';
 import { listTransactions } from '../services/transactions.service';
 import { GROUPS, Transaction } from '../types';
-import { formatBRL } from '../utils';
+import { formatBRL, handleError } from '../utils';
 
 export interface LisTransactionsData {
     transactions: Transaction[];
@@ -24,22 +22,14 @@ const ListTransactions: React.FC = () => {
             setTransacitons(transactions);
             setTotal(total);
         } catch (e) {
-            if (e instanceof AxiosError) {
-                switch (e.status) {
-                    case 400: {
-                        toast(e.message)
-                        break;
-                    }
-                    default: toast('Serviço indisponível');
-                }
-            }
+            handleError(e);
         }
     }
     useEffect(() => {
         loadTransactions(GROUPS.AFILIADO);
     }, []);
 
-    return <div className="container mx-auto">
+    return <div className="container mx-auto pb-32">
         <NavigationButton to="/home" label='Registrar Transações' />
         <SelectGroup onChange={(group) => loadTransactions(group)} />
 
