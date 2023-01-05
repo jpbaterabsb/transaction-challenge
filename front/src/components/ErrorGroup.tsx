@@ -1,10 +1,11 @@
-import { Dispatch, SetStateAction } from 'react'
+import React, { Dispatch, SetStateAction } from 'react'
 import { ErrorByLine } from '../types'
 
 export function ErrorGroup (props: { errors: ErrorByLine | null | undefined, setErrors: Dispatch<SetStateAction<ErrorByLine | null | undefined>> }): React.ReactElement {
-  return (<div data-testid="error-container" className={`bg-red-600 my-5 p-5 rounded-xl transition-all duration-300 ${(props.errors != null) ? 'opacity-100' : 'opacity-0'}`}>
-        {(props.errors != null) && (
-            <>
+  return (
+    <React.Fragment>
+      { (props.errors && Object.keys(props.errors).length > 0) && (
+            <div data-testid="error-container" className={`bg-red-600 my-5 p-5 rounded-xl transition-all duration-300 ${(props.errors != null) ? 'opacity-100' : 'opacity-0'}`}>
                 <span data-testid='close-button' className="flex flex-1 justify-end cursor-pointer text-xl hover:bg-red" onClick={() => { props.setErrors(null) }}>&times;</span>
                 <ul className="space-y-4 list-inside  text-gray-800">
                     {Object.entries(props.errors).map(([line, error]) => <li key={line}>
@@ -15,7 +16,7 @@ export function ErrorGroup (props: { errors: ErrorByLine | null | undefined, set
 
                     </li>)}
                 </ul>
-            </>
-        )}
-    </div>)
+                </div>
+      ) }</React.Fragment>
+  )
 }

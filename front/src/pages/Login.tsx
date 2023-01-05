@@ -33,7 +33,7 @@ export const Login: React.FC = () => {
         navigate('/home')
       })
       .catch(e => {
-        e.message = 'Usuário e/ou senha estão incorretos'
+        e.alert = 'Usuário e/ou senha estão incorretos'
         handleError(e)
       })
   }

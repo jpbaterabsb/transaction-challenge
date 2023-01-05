@@ -43,7 +43,7 @@ describe('TransactionService', () => {
 
   it('should get lines', () => {
     const buffer = readFileSync(
-      join(__dirname, '../../assets/sales-test-ok.txt'),
+      join(__dirname, '../../assets/sales-test-with-1-error.txt'),
     );
 
     const lines = service.getLines(buffer);
@@ -58,7 +58,7 @@ describe('TransactionService', () => {
 
   it('should convert line to transaction successfully', async () => {
     const buffer = readFileSync(
-      join(__dirname, '../../assets/sales-test-ok.txt'),
+      join(__dirname, '../../assets/sales-test-with-1-error.txt'),
     );
 
     const lines = service.getLines(buffer);

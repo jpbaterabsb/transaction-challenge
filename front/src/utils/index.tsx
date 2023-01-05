@@ -15,7 +15,7 @@ interface BadRequestError {
 }
 
 interface UnauthorizedError {
-  message?: string
+  alert?: string
 }
 
 function buildErrorBadRequest (err: BadRequestError): void {
@@ -28,13 +28,13 @@ function buildErrorBadRequest (err: BadRequestError): void {
 }
 
 function buildErrorUnauthorized (err: UnauthorizedError): void {
-  if (err.message) {
-    toast(err.message)
+  if (err.alert) {
+    toast(err.alert)
   } else {
     toast('Sessão Expirada')
+    localStorage.clear()
+    location.reload()
   }
-
-  localStorage.clear()
 }
 
 export function handleError (e: unknown): void {
@@ -49,7 +49,7 @@ export function handleError (e: unknown): void {
         break
       }
       case 401: {
-        buildErrorUnauthorized(e)
+        buildErrorUnauthorized(e as UnauthorizedError)
         break
       }
       default: toast('Serviço indisponível')
