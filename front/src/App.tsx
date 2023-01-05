@@ -1,11 +1,14 @@
-import { Router } from './router'
+import { Router } from './routes/router'
 import 'react-toastify/dist/ReactToastify.css'
 import { ToastContainer } from 'react-toastify'
+import { RecoilRoot } from 'recoil'
 
 function App (): React.ReactElement {
   return (<>
-  <Router/>
-  <ToastContainer />
+    <RecoilRoot>
+      <Router />
+      <ToastContainer />
+    </RecoilRoot>
   </>)
 }
 

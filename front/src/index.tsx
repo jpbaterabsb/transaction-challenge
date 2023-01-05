@@ -5,6 +5,7 @@ import App from './App'
 import reportWebVitals from './reportWebVitals'
 
 const root = ReactDOM.createRoot(
+  // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
   document.getElementById('root') as HTMLElement
 )
 root.render(

@@ -17,7 +17,6 @@ const ListTransactions: React.FC = () => {
   async function loadTransactions (group: GROUPS): Promise<void> {
     try {
       const { data } = await listTransactions(group)
-      console.log(data)
       const { transactions, total } = data as LisTransactionsData
       setTransacitons(transactions)
       setTotal(total)
