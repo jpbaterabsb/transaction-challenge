@@ -7,15 +7,25 @@ import {
   Query,
   UnprocessableEntityException,
   UploadedFile,
+  UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
-import { ApiConsumes, ApiBody, ApiQuery, ApiTags } from '@nestjs/swagger';
+import {
+  ApiConsumes,
+  ApiBody,
+  ApiQuery,
+  ApiTags,
+  ApiBearerAuth,
+} from '@nestjs/swagger';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { TransactionService } from './transaction.service';
 
 import { GetAllTransactionsParams, GetAllTransactionsResponse } from './types';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 
 @ApiTags('transactions')
+@ApiBearerAuth()
+@UseGuards(JwtAuthGuard)
 @Controller('transactions')
 export class TransactionController {
   constructor(private transactionService: TransactionService) {}

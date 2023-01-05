@@ -5,8 +5,10 @@ import { TransactionController } from './transaction/transaction.controller';
 import { AuthService } from './auth/auth.service';
 import { UsersService } from './users/users.service';
 import { PassportModule } from '@nestjs/passport';
-import { LocalStrategy } from './auth/local.strategy';
 import { JwtModule } from '@nestjs/jwt';
+import { AuthController } from './auth/auth.controller';
+import { JwtStrategy } from './auth/jwt.strategy';
+import { LocalStrategy } from './auth/local.strategy';
 
 @Module({
   providers: [
@@ -14,6 +16,7 @@ import { JwtModule } from '@nestjs/jwt';
     PrismaService,
     AuthService,
     UsersService,
+    JwtStrategy,
     LocalStrategy,
   ],
   imports: [
@@ -23,6 +26,6 @@ import { JwtModule } from '@nestjs/jwt';
       signOptions: { expiresIn: '60s' },
     }),
   ],
-  controllers: [TransactionController],
+  controllers: [TransactionController, AuthController],
 })
 export class BackendModule {}
