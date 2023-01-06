@@ -65,14 +65,22 @@ describe('/transactions', () => {
       .expect(201, { errors: {}, created: 20 });
   });
 
-  it(`/POST transactions with a file without errors`, () => {
+  it(`/POST create transactions with a file with errors`, () => {
     return request(app.getHttpServer())
       .post('/transactions')
       .set(commonHeaders)
-      .attach('file', join(__dirname, '../src/assets/sales.txt'), {
-        contentType: 'text/plain',
-      })
-      .expect(201, { errors: {}, created: 20 });
+      .attach(
+        'file',
+        join(__dirname, '../src/assets/sales-test-with-errors.txt'),
+        {
+          contentType: 'text/plain',
+        },
+      )
+      .expect(201)
+      .then((r) => {
+        expect(r.body.created).toBe(15);
+        expect(Object.keys(r.body.errors).length).toBe(5);
+      });
   });
 
   it(`/POST should fail when a json file is uploaded`, () => {
