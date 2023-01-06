@@ -11,6 +11,10 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
+  /**
+   * Compare crypted password with non crypted passowrd if password matches it will return user data
+   * else it will return null
+   */
   async validateUser(username: string, pass: string): Promise<User> {
     const user = await this.usersService.findOne(username);
 
@@ -20,6 +24,9 @@ export class AuthService {
     return null;
   }
 
+  /**
+   * Generate JWT token with user data
+   */
   async login(user: User) {
     const payload = { username: user.username, sub: user.id };
     return {

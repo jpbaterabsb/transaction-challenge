@@ -6,6 +6,9 @@ export interface LoginRequest {
   password: string
 }
 
+/**
+ * Authenticate an user
+ */
 export const signin = async (loginRequest: LoginRequest): Promise<AxiosResponse> => {
   return await rest.post('/auth/login', loginRequest)
 }

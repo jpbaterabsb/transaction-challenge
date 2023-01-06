@@ -2,6 +2,9 @@ import axios from 'axios'
 
 axios.defaults.baseURL = process.env.REACT_APP_BASE_URL
 
+/**
+ * Interceptors to add authentication data in a rquest headers.
+ */
 axios.interceptors.request.use(function (config) {
   const jwt = getJWT()
 

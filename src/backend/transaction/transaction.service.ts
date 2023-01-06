@@ -9,6 +9,9 @@ const MINIMUM_LINE_LENGTH = 67;
 export class TransactionService {
   constructor(private prisma: PrismaService) {}
 
+  /**
+   * Get transactions filtered by group if group is null this method will return all transactions from database.
+   */
   async getTransactions(groupId?: number): Promise<GetAllTransactionsResponse> {
     let where: any = {};
 
@@ -34,6 +37,9 @@ export class TransactionService {
     return { transactions, total: total?._sum?.amount };
   }
 
+  /**
+   * Read a file and register data on database.
+   */
   async create(file: Express.Multer.File): Promise<TnasactionCreateResponse> {
     const lines = this.getLines(file.buffer);
     const { transactions, errorByLine } = await this.toTransactionList(lines);
@@ -51,6 +57,9 @@ export class TransactionService {
     };
   }
 
+  /**
+   * Register transactions on database.
+   */
   private async saveTransactions(
     numberOfTransactionsProcesseds: any,
     transactions: any[],
@@ -63,6 +72,9 @@ export class TransactionService {
     return numberOfTransactionsProcesseds;
   }
 
+  /**
+   * Convert lines to transactionList and the lines which contain some error is added in a list of error.
+   */
   async toTransactionList(lines: string[]) {
     const errorByLine: Record<number, ValidationError[]> = {};
     let index = 1;
@@ -96,6 +108,9 @@ export class TransactionService {
     ];
   }
 
+  /**
+   * Convert a single line to transaction
+   */
   private toTransaction(line: string) {
     const transaction = new Transaction();
 
@@ -107,6 +122,9 @@ export class TransactionService {
     return transaction;
   }
 
+  /**
+   * Convert file to an array of lines.
+   */
   getLines(file: Buffer) {
     const dataAsString = file.toString('utf8');
 
@@ -124,8 +142,28 @@ type TnasactionCreateResponse = {
   created: number;
   errors: ErrorByLine;
 };
+
+/**
+ * Type parser
+ */
 const getType: TransactionLine = (line) => Number(line.slice(0, 1));
+
+/**
+ * Type date
+ */
 const getDate: TransactionLine = (line) => new Date(line.slice(1, 20));
+
+/**
+ * Type Product
+ */
 const getProduct: TransactionLine = (line) => line.slice(26, 56).trim();
+
+/**
+ * Type Amount
+ */
 const getAmount: TransactionLine = (line) => Number(line.slice(56, 66));
+
+/**
+ * Type Amount
+ */
 const getPartner: TransactionLine = (line) => line.slice(66).trim();

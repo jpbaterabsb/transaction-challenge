@@ -18,6 +18,9 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
     super();
   }
 
+  /**
+   *  Validate payload's shape and validate credentials againts user data from database.
+   */
   authenticate(
     req: Request<ParamsDictionary, any, any, ParsedQs, Record<string, any>>,
     options?: any,
@@ -36,6 +39,9 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
     super.authenticate(req, options);
   }
 
+  /**
+   *  Validate if username and password matches with some registered user else trhows an UnauthorizedException.
+   */
   async validate(username: string, password: string): Promise<any> {
     const user = await this.authService.validateUser(username, password);
     if (!user) {

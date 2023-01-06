@@ -12,6 +12,9 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     });
   }
 
+  /**
+   *  Get deserialized JWT data and it add data in req.user property.
+   */
   async validate(payload: any) {
     return { userId: payload.sub, username: payload.username };
   }
